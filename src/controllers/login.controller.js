@@ -2,12 +2,12 @@ require('dotenv/config');
 const { UserService } = require('../services');
 const { createToken } = require('../middlewares/auth/ auth.middleware');
 
-const isBodyValid = (email, password) => email && password;
+const validUser = (email, password) => email && password;
 
 module.exports = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!isBodyValid(email, password)) {
+    if (!validUser(email, password)) {
       return res.status(400).json({ message: 'Some required fields are missing' });
     }
     const user = await UserService.getByEmail(email);

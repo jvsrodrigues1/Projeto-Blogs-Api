@@ -1,8 +1,8 @@
 const express = require('express');
-const login = require('./controllers/login');
-const { createUser, getUsers, getByUserId } = require('./controllers/userController');
-const { createCategory, getCategories } = require('./controllers/categoryController');
-const { createPost, getPosts } = require('./controllers/postController');
+const login = require('./controllers/login.controller');
+const { createUser, getUsers, getByUserId } = require('./controllers/user.controller');
+const { createCategory, getCategories } = require('./controllers/category.controller');
+const { createPost, getPosts } = require('./controllers/post.controller');
 const validateToken = require('./middlewares/validateToken');
 
 const app = express();

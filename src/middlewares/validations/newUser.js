@@ -2,7 +2,7 @@ const { User } = require('../../models');
 
 const { addUserSchema } = require('./schemas');
 
-const validateNewUser = async (displayName, email, password) => {
+const isNewUserValid = async (displayName, email, password) => {
   const { error } = addUserSchema.validate({ displayName, email, password });
   if (error) return { type: 'INVALID_VALUE', message: error.message };
   
@@ -12,5 +12,6 @@ const validateNewUser = async (displayName, email, password) => {
   return { type: null, message: '' };
 };
 module.exports = {
-  validateNewUser,
+  isNewUserValid
+,
 };

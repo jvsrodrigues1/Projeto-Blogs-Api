@@ -1,8 +1,8 @@
 const { Category } = require('../models');
-const { validateNewCategory } = require('../middlewares/validations/validateNewCategory');
+const { isNewCategoryValid } = require('../middlewares/validations/newCategory');
 
 const createCategory = async ({ name }) => {
-  const error = await validateNewCategory(name);
+  const error = await isNewCategoryValid(name);
   if (error.type) return error;
   
   const newCategory = await Category.create({ name });

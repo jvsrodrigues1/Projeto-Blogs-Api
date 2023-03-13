@@ -1,8 +1,8 @@
 const { Category } = require('../../models');
 
-const { addCategorySchema } = require('./schemas');
+const { addCategorySchema, validateCategory } = require('./schemas');
 
-const validateNewCategory = async (name) => {
+const isNewCategoryValid = async (name) => {
   const { error } = addCategorySchema.validate({ name });
   if (error) return { type: 'INVALID_VALUE', message: error.message };
   
@@ -11,6 +11,13 @@ const validateNewCategory = async (name) => {
   
   return { type: null, message: '' };
 };
+
+const categoryValidation = (name) => {
+  const { error } = validateCategory.validate({ name });
+  if (error) throw Object({ status: 400, message: error.message });
+};
+
 module.exports = {
-  validateNewCategory,
+  isNewCategoryValid,
+  categoryValidation,
 };

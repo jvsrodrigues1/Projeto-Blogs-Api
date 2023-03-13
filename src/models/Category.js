@@ -5,7 +5,7 @@
  * @returns 
  */
 
-const CategoryModel = (sequelize, DataTypes) => {
+const categoryNewModel = (sequelize, DataTypes) => {
  const Category = sequelize.define(
     'Category',
     {
@@ -23,4 +23,4 @@ const CategoryModel = (sequelize, DataTypes) => {
   return Category;
 };
 
-module.exports = CategoryModel;
+module.exports = categoryNewModel;

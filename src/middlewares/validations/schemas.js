@@ -45,9 +45,52 @@ const addPostSchema = Joi.object().keys({
   }),
 });
 
+const validateLogin = Joi.object({
+  email: Joi.string().min(5).required()
+.label('email'),
+  password: Joi.string().min(1).required()
+.label('password'),
+});
+
+const valitadeNewUser = Joi.object({
+  displayName: Joi.string().min(8).required()
+.label('displayName'),
+  email: Joi.string().email().required()
+.label('email'),
+  password: Joi.string().min(6).required()
+.label('password'),
+  image: Joi.string().optional()
+.label('image'),
+});
+
+const valitadeNewPost = Joi.object({
+  title: Joi.string().required()
+.label('title'),
+  content: Joi.string().required()
+.label('content'),
+  categoryIds: Joi.array().required()
+.label('categoryIds'),
+});
+
+const validateUpdatePost = Joi.object({
+  title: Joi.string().required()
+.label('title'),
+  content: Joi.string().required()
+.label('content'),
+});
+
+const ValidateCategory = Joi.object({
+  name: Joi.string().min(1).required().label('name'),
+});
+
 module.exports = {
   newPostSchema,
   addUserSchema,
   addCategorySchema,
   addPostSchema,
+  ValidateCategory,
+  validateLogin,
+  valitadeNewUser,
+  valitadeNewPost,
+  validateUpdatePost,
 };

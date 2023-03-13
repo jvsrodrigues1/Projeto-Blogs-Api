@@ -1,5 +1,5 @@
 const { User, Category, BlogPost, PostCategory } = require('../models');
-const { validateNewPost } = require('../middlewares/validations/validateNewPost');
+const { validateNewPost } = require('../middlewares/validations/newPost');
 
 const createPost = async (newPost, email) => {
   const { title, content, categoryIds } = newPost;

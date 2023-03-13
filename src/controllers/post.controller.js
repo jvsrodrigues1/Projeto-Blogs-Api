@@ -1,16 +1,26 @@
-const { postService } = require('../services/postService');
-const errorMap = require('../utilities/mapError');
+const { PostService } = require('../services');
+const { mapError } = require('../utilities/mapError');
 
-const createNewPost = async (req, res) => {
-  const { body } = req;
-  const userId = req.user.id;
+const createPost = async (req, res) => {
+  const newPost = req.body;
+  const { email } = req.data;
 
-  const { type, message } = await postService.createNewPost({ ...body, userId });
-  if (type) return res.status(errorMap.mapError(type)).json({ message });
+  const { type, message } = await PostService.createPost(newPost, email);
 
-  res.status(201).json(message);
+  if (type) return res.status(mapError(type)).json({ message });
+
+  return res.status(201).json(message);
+};
+
+const getPosts = async (_req, res) => {
+  const { type, message } = await PostService.getPosts();
+
+  if (type) return res.status(mapError(type)).json({ message });
+
+  return res.status(200).json(message);
 };
 
 module.exports = {
-  createNewPost,
+  createPost,
+  getPosts,
 };

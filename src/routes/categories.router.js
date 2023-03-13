@@ -1,13 +1,10 @@
 const express = require('express');
-const categoriesController = require('../controllers/category.controller');
-const { validatePostCategories } = require('../middlewares/validations/validateNewPost');
-const { auth } = require('../middlewares/auth/ auth.middleware');
+const { categoryController } = require('../controllers/category.controller');
+const { validateToken } = require('../middlewares/validateToken');
 
 const router = express.Router();
 
-router.post('/', auth, validatePostCategories, categoriesController.postCategories);
-router.get('/', auth, categoriesController.getAllCategories);
-
-// router.get('/:id', auth, userController.getOneUser);
+router.post('/', validateToken, categoryController.createCategory);
+router.get('/', validateToken, categoryController.getCategories);
 
 module.exports = router;

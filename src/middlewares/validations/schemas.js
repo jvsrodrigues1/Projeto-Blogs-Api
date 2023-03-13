@@ -23,6 +23,12 @@ const addCategorySchema = Joi.object().keys({
   }),
 });
 
+const newPostSchema = Joi.object({
+  title: Joi.string().min(1).required(),
+  content: Joi.string().min(1).required(),
+  categoryIds: Joi.array().items(Joi.number()).required(),
+});
+
 const addPostSchema = Joi.object().keys({
   title: Joi.string().min(1).required().messages({
     'string.empty': ERROR_MESSAGE,
@@ -40,6 +46,7 @@ const addPostSchema = Joi.object().keys({
 });
 
 module.exports = {
+  newPostSchema,
   addUserSchema,
   addCategorySchema,
   addPostSchema,

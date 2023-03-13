@@ -19,8 +19,44 @@ const getPosts = async (_req, res) => {
 
   return res.status(200).json(message);
 };
+const getQueryPost = async (req, res, next) => {
+  const { q } = req.query;
+  try {
+    const response = await PostService.getQueryPost(q);
+    return res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+const updatePost = async (req, res, next) => {
+  try {
+    const response = await PostService.updatePost({ 
+      body: req.body,
+      email: req.data,
+      id: req.params.id });
+    return res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deletePost = async (req, res, next) => {
+  try {
+    await PostService.deletePost({ 
+      email: req.data,
+      id: req.params.id });
+    return res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
+  deletePost,
   createPost,
   getPosts,
+  updatePost,
+  getQueryPost,
 };

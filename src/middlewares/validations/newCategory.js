@@ -1,9 +1,9 @@
 const { Category } = require('../../models');
 
-const { addCategorySchema, validateCategory } = require('./schemas');
+const { addCategory, validateCategory } = require('./schemas');
 
 const isNewCategoryValid = async (name) => {
-  const { error } = addCategorySchema.validate({ name });
+  const { error } = addCategory.validate({ name });
   if (error) return { type: 'INVALID_VALUE', message: error.message };
   
   const categoryExists = await Category.findOne({ where: { name } });

@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const ERROR_MESSAGE = 'Some required fields are missing';
 
-const addUserSchema = Joi.object().keys({
+const addUser = Joi.object().keys({
   displayName: Joi.string().min(8).required().messages({
     'string.min': '"displayName" length must be at least 8 characters long',
     'string.required': '"displayName" is required',
@@ -17,19 +17,19 @@ const addUserSchema = Joi.object().keys({
   }),
 });
 
-const addCategorySchema = Joi.object().keys({
+const addCategory = Joi.object().keys({
   name: Joi.string().min(1).required().messages({
     'string.required': '"name" is required',
   }),
 });
 
-const newPostSchema = Joi.object({
+const newPostSchemas = Joi.object({
   title: Joi.string().min(1).required(),
   content: Joi.string().min(1).required(),
   categoryIds: Joi.array().items(Joi.number()).required(),
 });
 
-const addPostSchema = Joi.object().keys({
+const addPostSchemas = Joi.object().keys({
   title: Joi.string().min(1).required().messages({
     'string.empty': ERROR_MESSAGE,
     'string.base': ERROR_MESSAGE,
@@ -84,10 +84,10 @@ const ValidateCategory = Joi.object({
 });
 
 module.exports = {
-  newPostSchema,
-  addUserSchema,
-  addCategorySchema,
-  addPostSchema,
+  newPostSchemas,
+  addUser,
+  addCategory,
+  addPostSchemas,
   ValidateCategory,
   validateLogin,
   valitadeNewUser,

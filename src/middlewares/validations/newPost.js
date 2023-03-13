@@ -1,8 +1,8 @@
 const { Category, BlogPost, User } = require('../../models');
-const { addPostSchema, validateUpdatePost } = require('./schemas');
+const { addPostSchemas, validateUpdatePost } = require('./schemas');
 
 const validateNewPost = async (title, content, categoryIds) => {
-  const { error } = addPostSchema.validate({ title, content, categoryIds });
+  const { error } = addPostSchemas.validate({ title, content, categoryIds });
   if (error) return { type: 'INVALID_VALUE', message: error.message };
 
   const post = await Promise.all(
@@ -15,12 +15,12 @@ const validateNewPost = async (title, content, categoryIds) => {
   return { type: null, message: '' };
 };
 
-const updatePostFieldsValidation = async (title, content) => {
+const updatePostValidation = async (title, content) => {
   const { error } = validateUpdatePost.validate({ title, content });
   if (error) throw Object({ status: 400, message: 'Some required fields are missing' });
 };
 
-const checkIfCategoryExists = async (arrayCategory) => {
+const checkCategory = async (arrayCategory) => {
   const check = arrayCategory.map((id) => Category.findOne({ where: { id } }));
   const promiseResolved = await Promise.all(check);
   promiseResolved.forEach((e) => {
@@ -28,19 +28,19 @@ const checkIfCategoryExists = async (arrayCategory) => {
   });
 };
 
-const checkIfPostExists = async (postId) => {
+const checkPosts = async (postId) => {
   const check = await BlogPost.findOne({ where: { id: postId } });
   if (!check) throw Object({ status: 404, message: 'Post does not exist' });
 };
 
-const getUserIdThroughPost = async (postId) => {
+const getUserIdPost = async (postId) => {
   const getPost = await BlogPost.findOne({ where: { id: postId } });
   
   return getPost.dataValues.userId;
 };
 
-const checkIfUserHasAuthorizationToEditPost = async (userEmail, postId) => {
- const userPostId = await getUserIdThroughPost(postId);
+const checkUserAbleToEdit = async (userEmail, postId) => {
+ const userPostId = await getUserIdPost(postId);
  const userId = await User.findOne({ where: { email: userEmail } });
  if (userId.dataValues.id !== userPostId) {
  throw Object({ 
@@ -51,9 +51,8 @@ const checkIfUserHasAuthorizationToEditPost = async (userEmail, postId) => {
 
 module.exports = {
   validateNewPost,
-  newPostFieldsValidation,
-  checkIfCategoryExists,
-  checkIfPostExists,
-  checkIfUserHasAuthorizationToEditPost,
-  updatePostFieldsValidation,
+  checkCategory,
+  checkPosts,
+  checkUserAbleToEdit,
+  updatePostValidation,
 };

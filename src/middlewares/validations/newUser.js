@@ -1,9 +1,9 @@
 const { User } = require('../../models');
 
-const { addUserSchema } = require('./schemas');
+const { addUser } = require('./schemas');
 
 const isNewUserValid = async (displayName, email, password) => {
-  const { error } = addUserSchema.validate({ displayName, email, password });
+  const { error } = addUser.validate({ displayName, email, password });
   if (error) return { type: 'INVALID_VALUE', message: error.message };
   
   const userExists = await User.findOne({ where: { email } });
